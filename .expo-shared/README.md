@@ -1,11 +1,19 @@
-> Why do I have a folder named ".expo-shared" in my project?
+# .expo-shared
+> .expo-shared 폴더는 프로젝트의 모든 개발자와 공유할 상태를 생성하는 명령을 실행할 때 생성됩니다.
+예를 들어 "npx expo-optimize"가 있습니다.
 
-The ".expo-shared" folder is created when running commands that produce state that is intended to be shared with all developers on the project. For example, "npx expo-optimize".
+> "assets.json" 파일은 "expo-optimize"를 통해 최적화되었으며 다시 처리할 필요가 없는 자산에 대해 설명합니다.
 
-> What does the "assets.json" file contain?
+> 공동작업자와 ".expo-shared" 폴더를 공유해야 합니다.
 
-The "assets.json" file describes the assets that have been optimized through "expo-optimize" and do not need to be processed again.
 
-> Should I commit the ".expo-shared" folder?
+# React Navigation
+https://reactnavigation.org/docs/getting-started
 
-Yes, you should share the ".expo-shared" folder with your collaborators.
+> TypeScript
+https://reactnavigation.org/docs/typescript/
+
+> StackNavigator
+https://reactnavigation.org/docs/stack-navigator/#options
+
+
