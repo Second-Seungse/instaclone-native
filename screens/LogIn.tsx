@@ -1,7 +1,10 @@
+import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
+import { RootStackParamList } from "../navigators/LoggedOutNav";
 
-export default function Login({ navigation }) {
+type Props = StackScreenProps<RootStackParamList, "CreateAccount">;
+export default function Login({ navigation }: Props) {
   return (
     <View>
       <Text>Login</Text>
