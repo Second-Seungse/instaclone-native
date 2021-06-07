@@ -1,5 +1,8 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import Welcome from "../screens/Welcome";
 import LogIn from "../screens/LogIn";
 import CreateAccount from "../screens/CreateAccount";
@@ -10,24 +13,34 @@ export type RootStackParamList = {
   CreateAccount: {};
 };
 
-const Stack = createStackNavigator<RootStackParamList>();
+const NavigatorScreenOptions = {
+  ...TransitionPresets.FadeFromBottomAndroid,
+  headerBackTitleVisible: false,
+};
+const WelcomeScreenOptions = {
+  headerShown: false,
+};
+const LogInScreenOptions = {
+  headerTitle: "",
+  headerTransparent: true,
+  headerTintColor: "white",
+};
 
+const Stack = createStackNavigator<RootStackParamList>();
 export default function LoggedOutNav() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerBackTitleVisible: false,
-      }}
-    >
+    <Stack.Navigator screenOptions={NavigatorScreenOptions}>
       <Stack.Screen
         name="Welcome"
-        options={{
-          headerShown: false,
-        }}
         component={Welcome}
+        options={WelcomeScreenOptions}
       />
       <Stack.Screen name="LogIn" component={LogIn} />
-      <Stack.Screen name="CreateAccount" component={CreateAccount} />
+      <Stack.Screen
+        name="CreateAccount"
+        component={CreateAccount}
+        options={LogInScreenOptions}
+      />
     </Stack.Navigator>
   );
 }
