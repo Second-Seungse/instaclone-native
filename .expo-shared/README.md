@@ -16,4 +16,5 @@ https://reactnavigation.org/docs/typescript/
 > StackNavigator
 https://reactnavigation.org/docs/stack-navigator/#options
 
-
+> Styled-components
+https://styled-components.com/docs/basics#react-native
