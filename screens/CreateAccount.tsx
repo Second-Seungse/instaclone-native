@@ -70,10 +70,11 @@ export default function CreateAccount() {
         lastOne={true}
         placeholderTextColor={"rgba(255, 255, 255, 0.6)"}
         onChangeText={(text) => setValue("password", text)}
+        onSubmitEditing={handleSubmit(onValid)}
       />
       <AuthButton
         text="Create Account"
-        disabled={true}
+        loading={false}
         onPress={handleSubmit(onValid)}
       />
     </AuthLayout>

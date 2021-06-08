@@ -16,9 +16,9 @@ const Container = styled.View`
 `;
 
 const Logo = styled.Image`
-  max-width: 50%;
+  max-width: 100%;
   width: 100%;
-  height: 100px;
+  height: 70px;
   margin: 0 auto;
   margin-bottom: 20px;
 `;
@@ -38,7 +38,7 @@ export default function AuthLayout({ children }) {
           style={{
             width: "100%",
           }}
-          behavior="padding"
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 50 : 0}
         >
           <Logo
