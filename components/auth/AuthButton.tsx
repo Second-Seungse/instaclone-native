@@ -17,9 +17,9 @@ const ButtonText = styled.Text`
   text-align: center;
 `;
 
-export default function AuthButton({ onPress, text, loading }) {
+export default function AuthButton({ onPress, disabled, text, loading }) {
   return (
-    <Button onPress={onPress}>
+    <Button disabled={disabled} onPress={onPress}>
       {loading ? (
         <ActivityIndicator color="white" />
       ) : (
