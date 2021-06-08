@@ -16,22 +16,29 @@ const Container = styled.View`
 `;
 
 const Logo = styled.Image`
-  max-width: 90%;
+  max-width: 50%;
   width: 100%;
   height: 100px;
+  margin: 0 auto;
   margin-bottom: 20px;
 `;
 
 export default function AuthLayout({ children }) {
-  const dismissKeyboard = () => Keyboard.dismiss();
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
   return (
-    <TouchableWithoutFeedback style={{ flex: 1 }} onPress={dismissKeyboard}>
+    <TouchableWithoutFeedback
+      style={{ flex: 1 }}
+      onPress={dismissKeyboard}
+      disabled={Platform.OS === "web"}
+    >
       <Container>
         <KeyboardAvoidingView
           style={{
             width: "100%",
           }}
-          behavior="position"
+          behavior="padding"
           keyboardVerticalOffset={Platform.OS === "ios" ? 50 : 0}
         >
           <Logo
