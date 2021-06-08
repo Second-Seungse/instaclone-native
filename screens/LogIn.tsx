@@ -30,7 +30,7 @@ export default function Login({ route: { params } }) {
       login: { ok, token },
     } = data;
     if (ok) {
-      await isLoggedInVar(token);
+      await logUserIn(token);
     }
   };
   const [logInMutation, { loading }] = useMutation(LOGIN_MUTATION, {
