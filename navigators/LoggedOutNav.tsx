@@ -14,8 +14,11 @@ export type RootStackParamList = {
 };
 
 const NavigatorScreenOptions = {
-  ...TransitionPresets.FadeFromBottomAndroid,
+  ...TransitionPresets.SlideFromRightIOS,
   headerBackTitleVisible: false,
+  headerTitle: "",
+  headerTransparent: true,
+  headerTintColor: "white",
 };
 const WelcomeScreenOptions = {
   headerShown: false,
@@ -36,11 +39,7 @@ export default function LoggedOutNav() {
         options={WelcomeScreenOptions}
       />
       <Stack.Screen name="LogIn" component={LogIn} />
-      <Stack.Screen
-        name="CreateAccount"
-        component={CreateAccount}
-        options={LogInScreenOptions}
-      />
+      <Stack.Screen name="CreateAccount" component={CreateAccount} />
     </Stack.Navigator>
   );
 }
