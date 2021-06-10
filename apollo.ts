@@ -40,6 +40,15 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    // * typePolicies란 apollo에게 type을 설정할 수 있도록 해준다
+    typePolicies: {
+      Query: {
+        fields: {
+          seeFeed: offsetLimitPagination(),
+        },
+      },
+    },
+  }),
 });
 export default client;
