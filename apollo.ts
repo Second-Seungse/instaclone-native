@@ -26,7 +26,7 @@ export const logUserOut = async () => {
 };
 
 const httpLink = createHttpLink({
-  uri: "https://strange-bear-82.loca.lt/graphql",
+  uri: "https://stupid-fireant-69.loca.lt/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -38,17 +38,19 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache({
-    // * typePolicies란 apollo에게 type을 설정할 수 있도록 해준다
-    typePolicies: {
-      Query: {
-        fields: {
-          seeFeed: offsetLimitPagination(),
-        },
+export const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        seeFeed: offsetLimitPagination(),
       },
     },
-  }),
+  },
 });
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache,
+});
+
 export default client;
