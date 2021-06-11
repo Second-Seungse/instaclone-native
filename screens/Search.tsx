@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import styled from "styled-components/native";
 import DismissKeyboard from "../components/DismissKeyboard";
 
@@ -25,9 +32,18 @@ const MessageText = styled.Text`
   font-weight: 600;
 `;
 
-const Input = styled.TextInput``;
+const Input = styled.TextInput<any>`
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
+  width: ${(props) => props.width * 0.8}px;
+  padding: 5px 10px;
+  margin-top: 30px;
+  border-radius: 7px;
+`;
 
 export default function Search({ navigation }) {
+  const numColumns = 4;
+  const { width } = useWindowDimensions();
   const { setValue, register, watch, handleSubmit } = useForm();
   const [startQueryFn, { loading, data, called }] = useLazyQuery(SEARCH_PHOTOS);
   const onValid = ({ keyword }) => {
@@ -38,17 +54,19 @@ export default function Search({ navigation }) {
     });
   };
   const SearchBox = () => (
-    <TextInput
-      style={{ backgroundColor: "white" }}
-      placeholderTextColor="black"
-      placeholder="Search photos"
-      autoCapitalize="none"
-      returnKeyLabel="Search"
-      returnKeyType="search"
-      autoCorrect={false}
-      onChangeText={(text) => setValue("keyword", text)}
-      onSubmitEditing={handleSubmit(onValid)}
-    />
+    <MessageContainer>
+      <Input
+        width={width}
+        placeholderTextColor="rgba(0, 0, 0, 0.8)"
+        placeholder="Search photos"
+        autoCapitalize="none"
+        returnKeyLabel="Search"
+        returnKeyType="search"
+        autoCorrect={false}
+        onChangeText={(text) => setValue("keyword", text)}
+        onSubmitEditing={handleSubmit(onValid)}
+      />
+    </MessageContainer>
   );
   useEffect(() => {
     navigation.setOptions({
@@ -59,6 +77,14 @@ export default function Search({ navigation }) {
       minLength: 3,
     });
   }, []);
+  const renderItem = ({ item: photo }) => (
+    <TouchableOpacity>
+      <Image
+        source={{ uri: photo.file }}
+        style={{ width: width / numColumns, height: 100 }}
+      />
+    </TouchableOpacity>
+  );
   return (
     <DismissKeyboard>
       <View style={{ flex: 1, backgroundColor: "black" }}>
@@ -73,11 +99,19 @@ export default function Search({ navigation }) {
             <MessageText>Search by keyword</MessageText>
           </MessageContainer>
         ) : null}
-        {data?.searchPhotos !== undefined &&
-        data?.searchPhotos?.length === 0 ? (
-          <MessageContainer>
-            <MessageText>Could not find anything.</MessageText>
-          </MessageContainer>
+        {data?.searchPhotos !== undefined ? (
+          data?.searchPhotos?.length === 0 ? (
+            <MessageContainer>
+              <MessageText>Could not find anything.</MessageText>
+            </MessageContainer>
+          ) : (
+            <FlatList
+              numColumns={numColumns}
+              data={data?.searchPhotos}
+              keyExtractor={(photo) => "" + photo.id}
+              renderItem={renderItem}
+            />
+          )
         ) : null}
       </View>
     </DismissKeyboard>
