@@ -56,6 +56,7 @@ const ExtraContainer = styled.View`
   padding: 10px;
 `;
 
+// ? param에 fullview를 추가하여 검색 후 photo 전체보기시 코멘트까지보는 로직 생성가능
 function Photo({ id, user, caption, file, isLiked, likes }) {
   const navigation = useNavigation();
   const { width, height } = useWindowDimensions();
@@ -160,6 +161,6 @@ Photo.propTypes = {
   file: PropTypes.string.isRequired,
   isLiked: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
-  commentNumber: PropTypes.number.isRequired,
+  commentNumber: PropTypes.number,
 };
 export default Photo;
