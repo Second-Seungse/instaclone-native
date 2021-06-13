@@ -43,26 +43,19 @@ export default function SelectPhoto({ navigation }) {
 
   const getPhotos = async () => {
     const { assets: photos } = await MediaLibrary.getAssetsAsync();
-    console.log(photos);
-    console.log(photos[0]?.uri);
-
     setPhotos(photos);
     setChosenPhoto(photos[0]?.uri);
-
-    console.log("1", chosenPhoto);
   };
 
   const getPermissions = async () => {
     const { granted, canAskAgain } = await MediaLibrary.getPermissionsAsync();
     if (granted === false && canAskAgain) {
-      console.log("g");
       const { granted } = await MediaLibrary.requestPermissionsAsync();
       if (granted !== false) {
         setOk(true);
         getPhotos();
       }
     } else if (granted !== false) {
-      console.log("f");
       setOk(true);
       getPhotos();
     }
@@ -88,13 +81,12 @@ export default function SelectPhoto({ navigation }) {
     navigation.setOptions({
       headerRight: HeaderRight,
     });
-  }, []);
+  }, [chosenPhoto]);
 
   const numColumns = 4;
   const { width } = useWindowDimensions();
   const choosePhoto = (uri) => {
     setChosenPhoto(uri);
-    console.log("2", chosenPhoto);
   };
   const renderItem = ({ item: photo }) => (
     <ImageContainer onPress={() => choosePhoto(photo.uri)}>
