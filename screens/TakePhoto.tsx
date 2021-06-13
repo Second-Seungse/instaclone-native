@@ -5,6 +5,7 @@ import { Alert, Image, StatusBar, Text, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
 import styled from "styled-components/native";
 import * as MediaLibrary from "expo-media-library";
+import { useIsFocused } from "@react-navigation/core";
 
 const Container = styled.View`
   flex: 1;
@@ -101,7 +102,9 @@ export default function TakePhoto({ navigation }) {
     if (save) {
       await MediaLibrary.saveToLibraryAsync(takenPhoto);
     }
-    console.log("Will upload", takenPhoto);
+    navigation.navigate("UploadForm", {
+      file: takenPhoto,
+    });
   };
   const onUpload = () => {
     Alert.alert("Save photo?", "Save photo & upload or just upload", [
@@ -127,10 +130,11 @@ export default function TakePhoto({ navigation }) {
     }
   };
   const onDismiss = () => setTakenPhoto("");
+  const isFocused = useIsFocused();
   // TODO 유저가 카메라 접근을 거부한 경우 접근을 허용해달라고 묻는 컨테이너 필요
   return (
     <Container>
-      <StatusBar hidden={true} />
+      {isFocused ? <StatusBar hidden={true} /> : null}
       {takenPhoto === "" ? (
         <Camera
           type={cameraType}

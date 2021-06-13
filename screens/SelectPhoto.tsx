@@ -39,30 +39,43 @@ const HeaderRightText = styled.Text`
 export default function SelectPhoto({ navigation }) {
   const [ok, setOk] = useState(false);
   const [photos, setPhotos] = useState([]);
-  const [chosenPhoto, setChosenPhoto] = useState("");
+  const [chosenPhoto, setChosenPhoto] = useState<string>("");
 
   const getPhotos = async () => {
     const { assets: photos } = await MediaLibrary.getAssetsAsync();
+    console.log(photos);
+    console.log(photos[0]?.uri);
+
     setPhotos(photos);
     setChosenPhoto(photos[0]?.uri);
+
+    console.log("1", chosenPhoto);
   };
 
   const getPermissions = async () => {
     const { granted, canAskAgain } = await MediaLibrary.getPermissionsAsync();
     if (granted === false && canAskAgain) {
+      console.log("g");
       const { granted } = await MediaLibrary.requestPermissionsAsync();
       if (granted !== false) {
         setOk(true);
         getPhotos();
       }
     } else if (granted !== false) {
+      console.log("f");
       setOk(true);
       getPhotos();
     }
   };
 
   const HeaderRight = () => (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("UploadForm", {
+          file: chosenPhoto,
+        })
+      }
+    >
       <HeaderRightText>Next</HeaderRightText>
     </TouchableOpacity>
   );
@@ -81,6 +94,7 @@ export default function SelectPhoto({ navigation }) {
   const { width } = useWindowDimensions();
   const choosePhoto = (uri) => {
     setChosenPhoto(uri);
+    console.log("2", chosenPhoto);
   };
   const renderItem = ({ item: photo }) => (
     <ImageContainer onPress={() => choosePhoto(photo.uri)}>
@@ -99,7 +113,7 @@ export default function SelectPhoto({ navigation }) {
   );
   return (
     <Container>
-      <StatusBar />
+      <StatusBar hidden={false} />
       <Top>
         {chosenPhoto !== "" ? (
           <Image
