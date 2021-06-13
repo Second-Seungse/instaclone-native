@@ -28,8 +28,8 @@ export const logUserOut = async () => {
 };
 
 const uploadHttpLink = createUploadLink({
-  // uri: "http://10.0.2.2:4000/graphql",
-  uri: "https://giant-kangaroo-86.loca.lt/graphql",
+  uri: "http://10.0.2.2:4000/graphql",
+  //uri: "https://fat-walrus-41.loca.lt/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

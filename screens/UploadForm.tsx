@@ -96,21 +96,21 @@ export default function UploadForm({ route, navigation }) {
         file,
       },
     });
-    return (
-      <DismissKeyboard>
-        <Container>
-          <Photo resizeMode="contain" source={{ uri: route.params.file }} />
-          <CaptionContainer>
-            <Caption
-              returnKeyType="done"
-              placeholder="Write a caption..."
-              placeholderTextColor="rgba(0, 0, 0, 0.5)"
-              onSubmitEditing={handleSubmit(onValid)}
-              onChangeText={(text) => setValue("caption", text)}
-            />
-          </CaptionContainer>
-        </Container>
-      </DismissKeyboard>
-    );
   };
+  return (
+    <DismissKeyboard>
+      <Container>
+        <Photo resizeMode="contain" source={{ uri: route.params.file }} />
+        <CaptionContainer>
+          <Caption
+            returnKeyType="done"
+            placeholder="Write a caption..."
+            placeholderTextColor="rgba(0, 0, 0, 0.5)"
+            onSubmitEditing={handleSubmit(onValid)}
+            onChangeText={(text) => setValue("caption", text)}
+          />
+        </CaptionContainer>
+      </Container>
+    </DismissKeyboard>
+  );
 }
