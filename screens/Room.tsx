@@ -18,6 +18,7 @@ const SEND_MESSAGE_MUTATION = gql`
 const ROOM_QUERY = gql`
   query seeRoom($id: Int!) {
     seeRoom(id: $id) {
+      id
       messages {
         id
         payload
@@ -36,7 +37,6 @@ const MessageContainer = styled.View<any>`
   flex-direction: ${(props) => (props.outGoing ? "row-reverse" : "row")};
   align-items: flex-end;
 `;
-
 const Author = styled.View``;
 const Avatar = styled.Image`
   height: 20px;
@@ -53,19 +53,18 @@ const Message = styled.Text`
   margin: 0px 10px;
 `;
 const TextInput = styled.TextInput`
-  margin-bottom: 5px;
+  margin-bottom: 50px;
   margin-top: 25px;
   width: 95%;
-  height: 40px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   padding: 10px 20px;
   color: white;
-  border-radius: 10px;
+  border-radius: 1000px;
 `;
 
 export default function Room({ route, navigation }) {
   const { data: meData } = useMe();
-  const { register, setValue, handleSubmit, getValues } = useForm();
+  const { register, setValue, handleSubmit, getValues, watch } = useForm();
   const updateSendMessage = (cache, result) => {
     const {
       data: {
@@ -74,6 +73,7 @@ export default function Room({ route, navigation }) {
     } = result;
     if (ok && meData) {
       const { message } = getValues();
+      setValue("message", "");
       const messageObj = {
         id,
         payload: message,
@@ -102,7 +102,7 @@ export default function Room({ route, navigation }) {
         id: `Room:${route.params.id}`,
         fields: {
           messages(prev) {
-            return [messageFragment, ...prev];
+            return [...prev, messageFragment];
           },
         },
       });
@@ -114,12 +114,12 @@ export default function Room({ route, navigation }) {
       update: updateSendMessage,
     }
   );
+
   const { data, loading } = useQuery(ROOM_QUERY, {
     variables: {
       id: route?.params?.id,
     },
   });
-
   const onValid = ({ message }) => {
     if (!sendingMessage) {
       sendMessageMutation({
@@ -130,11 +130,9 @@ export default function Room({ route, navigation }) {
       });
     }
   };
-
   useEffect(() => {
     register("message", { required: true });
   }, [register]);
-
   useEffect(() => {
     navigation.setOptions({
       title: `${route?.params?.talkingTo?.username}`,
@@ -154,12 +152,11 @@ export default function Room({ route, navigation }) {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: "black" }}
       behavior="padding"
-      keyboardVerticalOffset={-180}
+      keyboardVerticalOffset={-800}
     >
       <ScreenLayout loading={loading}>
         <FlatList
-          inverted
-          style={{ width: "100%", paddingTop: 10 }}
+          style={{ width: "100%", paddingVertical: 10 }}
           ItemSeparatorComponent={() => <View style={{ height: 20 }}></View>}
           data={data?.seeRoom?.messages}
           keyExtractor={(message) => "" + message.id}
@@ -172,6 +169,7 @@ export default function Room({ route, navigation }) {
           returnKeyType="send"
           onChangeText={(text) => setValue("message", text)}
           onSubmitEditing={handleSubmit(onValid)}
+          value={watch("message")}
         />
       </ScreenLayout>
     </KeyboardAvoidingView>
