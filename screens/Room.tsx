@@ -20,22 +20,35 @@ const ROOM_QUERY = gql`
   }
 `;
 
-const MessageContainer = styled.View``;
+const MessageContainer = styled.View<any>`
+  padding: 0px 10px;
+  flex-direction: ${(props) => (props.outGoing ? "row-reverse" : "row")};
+  align-items: flex-end;
+`;
+
 const Author = styled.View``;
-const Avatar = styled.Image``;
-const Username = styled.Text`
-  color: white;
+const Avatar = styled.Image`
+  height: 20px;
+  width: 20px;
+  border-radius: 25px;
 `;
 const Message = styled.Text`
   color: white;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 5px 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  font-size: 16px;
+  margin: 0px 10px;
 `;
 const TextInput = styled.TextInput`
   margin-bottom: 5px;
-  margin-top: 20px;
+  margin-top: 25px;
   width: 95%;
   height: 40px;
-  background-color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   padding: 10px 20px;
+  color: white;
   border-radius: 10px;
 `;
 
@@ -51,10 +64,11 @@ export default function Room({ route, navigation }) {
     });
   }, []);
   const renderItem = ({ item: message }) => (
-    <MessageContainer>
+    <MessageContainer
+      outGoing={message.user.username !== route?.params?.talkingTo?.username}
+    >
       <Author>
         <Avatar source={{ uri: message.user.avatar }} />
-        <Username>{message.user.username}</Username>
       </Author>
       <Message>{message.payload}</Message>
     </MessageContainer>
@@ -62,8 +76,8 @@ export default function Room({ route, navigation }) {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: "black" }}
-      behavior="height"
-      keyboardVerticalOffset={100}
+      behavior="padding"
+      keyboardVerticalOffset={-180}
     >
       <ScreenLayout loading={loading}>
         <FlatList
@@ -74,6 +88,7 @@ export default function Room({ route, navigation }) {
           renderItem={renderItem}
         />
         <TextInput
+          placeholderTextColor="rgba(255, 255, 255, 0.5)"
           placeholder="Write a message..."
           returnKeyLabel="Send Message"
           returnKeyType="send"
