@@ -34,13 +34,13 @@ export const logUserOut = async () => {
 
 const uploadHttpLink = createUploadLink({
   uri: "http://10.0.2.2:4000/graphql",
-  //uri: "https://sharp-firefox-4.loca.lt/graphql",
+  //uri: "https://swift-wolverine-68.loca.lt/graphql",
 });
 
 const wsLink = new WebSocketLink({
   uri: "ws://localhost:4000/graphql",
+  //uri: "ws://swift-wolverine-68.loca.lt/graphql",
   options: {
-    reconnect: true,
     connectionParams: () => ({
       token: tokenVar(),
     }),
