@@ -38,12 +38,12 @@ const uploadHttpLink = createUploadLink({
 });
 
 const wsLink = new WebSocketLink({
-  uri: "ws://10.0.2.2:4000/graphql",
+  uri: "ws://localhost:4000/graphql",
   options: {
     reconnect: true,
-    connectionParams: {
+    connectionParams: () => ({
       token: tokenVar(),
-    },
+    }),
   },
 });
 
