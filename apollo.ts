@@ -40,7 +40,7 @@ const uploadHttpLink = createUploadLink({
 
 const wsLink = new WebSocketLink({
   uri: "ws://instaclone-backend-ohsse.herokuapp.com/graphql",
-  // uri: "ws://localhost:4000/graphql",
+  // uri: "ws://10.0.2.2:4000/graphql",
   //uri: "ws://swift-wolverine-68.loca.lt/graphql",
   options: {
     connectionParams: () => ({
